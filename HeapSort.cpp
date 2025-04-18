@@ -54,16 +54,24 @@ int RunNumber(int n, int A[]){
     }   
     return serialNumbers;
 }
+double calculateTheoretical(int n) {
+    double total = 0;
+    for (int i = n / 2; i >= 0; i--) {
+        int L = i + 1;
+        int R = n;
+        total += (log2(R/L) + 2) + 2 * (log2(R/L));
+    }
+    return total;
+}
+
 
 int HeapBuild(int A[], int L, int R){
     int tmp; int C = 0; int M = 0;
     M++; tmp = A[L]; int i = L;
-    double teor = log2(R+1/L+1)+2 + 2*log2(R+1/L+1);
-    teorMCheap += teor;
     while(1){
         int j = 2 * i;
-        C++; if(j>R) break;;
-        C++; if(j<R){
+         if(j>R) break;
+         if(j<R){
             C++;
             if(A[j+1]<=A[j]){
                 j++;
@@ -113,7 +121,8 @@ int main(){
         
         fillDec(n,A);
         HeapDec = Heapf(A,n);
-        teorMCheapDec = teorMCheap;
+        teorMCheapDec = calculateTheoretical(n);
+        
 
         fillInc(n,A);
         HeapInc = Heapf(A,n);
@@ -139,11 +148,13 @@ int main(){
         fillDec(n,A);
         HeapDec = HeapSort(A,n);
         
+        
         fillInc(n,A);
         HeapInc = HeapSort(A,n);
     
         fillRnd(n,A);
         HeapRnd = HeapSort(A,n);
+        // PrintMas(n,A);
         
         printf("|%-5d | %-6d | %-6d | %-6d |\n", n, HeapDec, HeapRnd, HeapInc);
         printf("|---------------------------------|\n");
